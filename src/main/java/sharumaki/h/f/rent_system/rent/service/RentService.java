@@ -17,7 +17,25 @@ public class RentService {
     }
 
     public Rent getById(String id) {
-        Rent aRent = rentRepository.getById(id).orElseThrow(() -> new RentNotFoundException());
+        Rent aRent = rentRepository.getById(id).orElseThrow(RentNotFoundException::new);
         return aRent;
+    }
+
+    public Rent createRent(Rent rent) {
+        return rentRepository.save(rent);
+    }
+
+    public Rent update(Rent aRentToUpdate) {
+        Optional<Rent> optRent = rentRepository.getById(aRentToUpdate.getId());
+
+        Rent rent = optRent.orElseThrow(RentNotFoundException::new);
+
+        rent.patchRent(aRentToUpdate);
+
+        return this.rentRepository.save(rent);
+    }
+
+    public void delete(String id) {
+        rentRepository.delete(id);
     }
 }

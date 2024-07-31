@@ -2,8 +2,7 @@ package sharumaki.h.f.rent_system.rent.model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import sharumaki.h.f.rent_system.Tenant.model.Tenant;
+import sharumaki.h.f.rent_system.tenant.model.Tenant;
 import sharumaki.h.f.rent_system.rent.exceptions.RentHasATenantException;
 import sharumaki.h.f.rent_system.rent.exceptions.RentIsUnavailableException;
 
@@ -18,7 +17,7 @@ class RentTest {
     Tenant aTenantMock;
     @BeforeEach
     void init() {
-        aRent = new Rent("Rent 1",2, BigDecimal.valueOf(199));
+        aRent = new Rent("Rent 1",2, 199f);
         aTenantMock = mock(Tenant.class);
     }
 

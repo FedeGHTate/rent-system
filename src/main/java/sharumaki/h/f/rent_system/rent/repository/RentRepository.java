@@ -12,5 +12,5 @@ public interface RentRepository {
     public Optional<Rent> getById(String id);
     public Rent save(Rent rent);
     public Rent update(Rent rent);
-    public void delete(int id);
+    public void delete(String id);
 }
