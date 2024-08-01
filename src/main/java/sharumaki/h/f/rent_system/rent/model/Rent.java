@@ -3,11 +3,13 @@ package sharumaki.h.f.rent_system.rent.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
+import sharumaki.h.f.rent_system.rent.exceptions.RentException;
 import sharumaki.h.f.rent_system.tenant.model.Tenant;
 import sharumaki.h.f.rent_system.rent.exceptions.RentHasATenantException;
 import sharumaki.h.f.rent_system.rent.exceptions.RentIsUnavailableException;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
@@ -21,6 +23,8 @@ public class Rent {
     private Tenant actualTenant;
     private int leaseTerm;
     private RentStatus status;
+    private LocalDate beginninOfPeriod;
+    private LocalDate endOfPeriod;
 
     public Rent(String name, int maximumOccupancy, Float price) {
         this.name = name;
@@ -46,9 +50,22 @@ public class Rent {
         this.status = RentStatus.OCCUPIED;
     }
 
-    public void deactivate() {
+    public void disable() {
+
+        if(this.status == RentStatus.OCCUPIED) {
+            this.endOfPeriod = LocalDate.now();
+        }
+
         this.status = RentStatus.UNAVAILABLE;
-        this.actualTenant = null;
+    }
+
+    public void close() {
+
+        if(this.status == RentStatus.AVAILABLE) {
+            this.status = RentStatus.AVAILABLE;
+        } else {
+            throw new RentException("It's already closed");
+        }
     }
 
     public void patchRent(Rent aRentToUpdate) {

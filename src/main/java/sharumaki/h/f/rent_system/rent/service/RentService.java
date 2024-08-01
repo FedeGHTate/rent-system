@@ -3,6 +3,7 @@ package sharumaki.h.f.rent_system.rent.service;
 import org.springframework.stereotype.Service;
 import sharumaki.h.f.rent_system.rent.exceptions.RentNotFoundException;
 import sharumaki.h.f.rent_system.rent.model.Rent;
+import sharumaki.h.f.rent_system.rent.model.RentStatus;
 import sharumaki.h.f.rent_system.rent.repository.RentRepository;
 
 import java.util.List;
@@ -44,5 +45,19 @@ public class RentService {
         List<Rent> rents = rentRepository.getAll().orElseThrow(RentNotFoundException::new);
 
         return rents;
+    }
+
+    public void closeRent(String rentId, String tenantId) {
+        Rent rent = this.getById(rentId);
+
+        rent.close();
+
+    }
+
+    public void disableTenantAllocation(String rentId) {
+        Rent rent = this.getById(rentId);
+
+        rent.disable();
+
     }
 }

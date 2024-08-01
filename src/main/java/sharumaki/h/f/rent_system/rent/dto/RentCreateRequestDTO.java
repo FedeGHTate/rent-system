@@ -15,4 +15,5 @@ public class RentCreateRequestDTO {
     private String name;
     private int maximumOccupancy;
     private float price;
+    private String tenantId;
 }

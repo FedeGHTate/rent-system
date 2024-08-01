@@ -44,7 +44,7 @@ class RentTest {
 
     @Test
     public void anUnavailableRentCanBeAssignedToATenant() {
-        aRent.deactivate();
+        aRent.disable();
 
         assertThrows(RentIsUnavailableException.class, () -> aRent.assignTenant(aTenantMock));
     }
