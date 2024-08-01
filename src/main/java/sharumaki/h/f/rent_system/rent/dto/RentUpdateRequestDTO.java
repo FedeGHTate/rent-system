@@ -13,9 +13,5 @@ import sharumaki.h.f.rent_system.tenant.model.Tenant;
 public class RentUpdateRequestDTO {
     private String name;
     private int maximumOccupancy;
-    private int currentOccupancy;
     private float price;
-    private Tenant actualTenant;
-    private RentStatus status;
-
 }

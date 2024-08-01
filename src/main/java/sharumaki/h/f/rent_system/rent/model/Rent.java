@@ -64,13 +64,5 @@ public class Rent {
         if(aRentToUpdate.getPrice() != null ) {
             this.price = aRentToUpdate.getPrice();
         }
-
-        if(aRentToUpdate.getActualTenant() != null) {
-            this.actualTenant = aRentToUpdate.getActualTenant();
-        }
-
-        if(aRentToUpdate.getStatus() != this.status) {
-            this.status = aRentToUpdate.getStatus();
-        }
     }
 }

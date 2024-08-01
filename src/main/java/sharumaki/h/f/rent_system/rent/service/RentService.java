@@ -5,6 +5,7 @@ import sharumaki.h.f.rent_system.rent.exceptions.RentNotFoundException;
 import sharumaki.h.f.rent_system.rent.model.Rent;
 import sharumaki.h.f.rent_system.rent.repository.RentRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -37,5 +38,11 @@ public class RentService {
 
     public void delete(String id) {
         rentRepository.delete(id);
+    }
+
+    public List<Rent> getAll() {
+        List<Rent> rents = rentRepository.getAll().orElseThrow(RentNotFoundException::new);
+
+        return rents;
     }
 }

@@ -12,6 +12,8 @@ import sharumaki.h.f.rent_system.rent.model.Rent;
 import sharumaki.h.f.rent_system.rent.service.RentService;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/rents")
@@ -30,6 +32,17 @@ public class RentController {
 
         Rent aRent = this.rentService.getById(id);
         RentDTO responseDTO = this.rentMapper.mapToRentDTO(aRent);
+
+        ApiResponse<Object> apiResponse = ApiResponse.builder().value(responseDTO).build();
+
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @GetMapping()
+    public ResponseEntity getRents() {
+        List<Rent> rents = this.rentService.getAll();
+
+        List<RentDTO> responseDTO = rents.stream().map(rent -> rentMapper.mapToRentDTO(rent)).toList();
 
         ApiResponse<Object> apiResponse = ApiResponse.builder().value(responseDTO).build();
 
