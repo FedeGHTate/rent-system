@@ -2,6 +2,7 @@ package sharumaki.h.f.rent_system.rent.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import sharumaki.h.f.rent_system.rent.exceptions.RentException;
 import sharumaki.h.f.rent_system.tenant.model.Tenant;
@@ -15,6 +16,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Document("rents")
 public class Rent {
+    @Id
     private String id;
     private String name;
     private int maximumOccupancy;

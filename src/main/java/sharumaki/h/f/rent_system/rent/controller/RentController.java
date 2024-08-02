@@ -1,7 +1,6 @@
 package sharumaki.h.f.rent_system.rent.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import sharumaki.h.f.rent_system.common.reponse.ApiResponse;
 import sharumaki.h.f.rent_system.rent.dto.RentCreateRequestDTO;
@@ -13,7 +12,6 @@ import sharumaki.h.f.rent_system.rent.service.RentService;
 
 import java.net.URI;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/rents")
