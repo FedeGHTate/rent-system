@@ -24,7 +24,10 @@ public class TenantController {
     public ResponseEntity<ApiResponse<Object>> getAll() {
         List<Tenant> tenants = this.tenantService.getAll();
 
-        ApiResponse<Object> apiResponse = ApiResponse.builder().value(tenants).build();
+        ApiResponse<Object> apiResponse = ApiResponse.builder()
+                .value(tenants)
+                .message("Tenants founded")
+                .build();
 
         return ResponseEntity.ok(apiResponse);
     }
@@ -33,7 +36,10 @@ public class TenantController {
     public ResponseEntity<ApiResponse<Object>> getById(@PathVariable String id) {
         Tenant aTenant = this.tenantService.getById(id);
 
-        ApiResponse<Object> apiResponse = ApiResponse.builder().value(aTenant).build();
+        ApiResponse<Object> apiResponse = ApiResponse.builder()
+                .value(aTenant)
+                .message("Tenant found")
+                .build();
 
         return ResponseEntity.ok(apiResponse);
     }
@@ -49,7 +55,10 @@ public class TenantController {
 
         Tenant tenantCreated = tenantService.createTenant(tenantToCreate);
 
-        ApiResponse<Object> apiResponse = ApiResponse.builder().value(tenantCreated).build();
+        ApiResponse<Object> apiResponse = ApiResponse.builder()
+                .value(tenantCreated)
+                .message("Tenant created")
+                .build();
 
         return ResponseEntity.created(URI.create("/" + tenantCreated.getId())).body(apiResponse);
     }
@@ -73,7 +82,10 @@ public class TenantController {
 
         Tenant tenantUpdated = this.tenantService.update(tenantToUpdate);
 
-        ApiResponse<Object> apiResponse = ApiResponse.builder().value(tenantUpdated).build();
+        ApiResponse<Object> apiResponse = ApiResponse.builder()
+                .value(tenantUpdated)
+                .message("Tenant updated")
+                .build();
 
         return ResponseEntity.ok().body(apiResponse);
     }
