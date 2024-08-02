@@ -31,7 +31,10 @@ public class RentController {
         Rent aRent = this.rentService.getById(id);
         RentDTO responseDTO = this.rentMapper.mapToRentDTO(aRent);
 
-        ApiResponse<Object> apiResponse = ApiResponse.builder().value(responseDTO).build();
+        ApiResponse<Object> apiResponse = ApiResponse.builder()
+                .value(responseDTO)
+                .message("Rent founded")
+                .build();
 
         return ResponseEntity.ok(apiResponse);
     }
@@ -42,7 +45,10 @@ public class RentController {
 
         List<RentDTO> responseDTO = rents.stream().map(rent -> rentMapper.mapToRentDTO(rent)).toList();
 
-        ApiResponse<Object> apiResponse = ApiResponse.builder().value(responseDTO).build();
+        ApiResponse<Object> apiResponse = ApiResponse.builder()
+                .value(responseDTO)
+                .message("All rents")
+                .build();
 
         return ResponseEntity.ok(apiResponse);
     }
@@ -52,9 +58,12 @@ public class RentController {
         Rent createdRent = this.rentService.createRent(new Rent(rent.getName(),rent.getMaximumOccupancy(),rent.getPrice()));
         RentDTO responseDTO = this.rentMapper.mapToRentDTO(createdRent);
 
-        ApiResponse<Object> apiResponse = ApiResponse.builder().value(responseDTO).build();
+        ApiResponse<Object> apiResponse = ApiResponse.builder()
+                .value(responseDTO)
+                .message("Rent created")
+                .build();
 
-        return ResponseEntity.created(URI.create("/" + responseDTO.getId())).body(apiResponse);
+        return ResponseEntity.created(URI.create("/rents/" + responseDTO.getId())).body(apiResponse);
     }
 
     @PatchMapping("/{id}")
@@ -67,7 +76,10 @@ public class RentController {
         Rent rentUpdated = this.rentService.update(aRentToUpdate);
 
         RentDTO responseDTO = this.rentMapper.mapToRentDTO(rentUpdated);
-        ApiResponse<Object> apiResponse = ApiResponse.builder().value(responseDTO).build();
+        ApiResponse<Object> apiResponse = ApiResponse.builder()
+                .value(responseDTO)
+                .message("Rent updated")
+                .build();
 
         return ResponseEntity.ok().body(apiResponse);
     }
