@@ -34,9 +34,7 @@ public class TenantService {
     }
 
     public Tenant update(Tenant tenantToUpdate) {
-        Optional<Tenant> optTenant = tenantRepository.getById(tenantToUpdate.getId());
-
-        Tenant tenant = optTenant.orElseThrow(TenantNotFoundException::new);
+        Tenant tenant = this.getById(tenantToUpdate.getId());
 
         tenant.patchTenant(tenantToUpdate);
 
