@@ -3,8 +3,6 @@ package sharumaki.h.f.rent_system.rent.exceptions;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import sharumaki.h.f.rent_system.bill_generator.exceptions.BillRefundUnpaidException;
-import sharumaki.h.f.rent_system.bill_generator.exceptions.MissingTenantException;
 import sharumaki.h.f.rent_system.common.reponse.ApiResponse;
 
 @ControllerAdvice(basePackages = "sharumaki.h.f.rent_system.rent")
