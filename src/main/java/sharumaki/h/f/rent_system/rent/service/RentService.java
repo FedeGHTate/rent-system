@@ -28,9 +28,7 @@ public class RentService {
     }
 
     public Rent update(Rent aRentToUpdate) {
-        Optional<Rent> optRent = rentRepository.getById(aRentToUpdate.getId());
-
-        Rent rent = optRent.orElseThrow(RentNotFoundException::new);
+        Rent rent = this.getById(aRentToUpdate.getId());
 
         rent.patchRent(aRentToUpdate);
 
