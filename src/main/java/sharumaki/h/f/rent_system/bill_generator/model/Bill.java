@@ -7,7 +7,9 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import sharumaki.h.f.rent_system.bill_generator.exceptions.BillCancelledException;
+import sharumaki.h.f.rent_system.bill_generator.exceptions.BillPaidException;
 import sharumaki.h.f.rent_system.bill_generator.exceptions.BillRefundedException;
+import sharumaki.h.f.rent_system.bill_generator.exceptions.InvalidBillPeriodException;
 import sharumaki.h.f.rent_system.tenant.model.Tenant;
 
 import java.math.BigDecimal;
@@ -41,6 +43,13 @@ public class Bill {
 
     public void pay() {
 
+        verifyStatus();
+
+        this.paidDate = LocalDate.now();
+        this.status = BillStatus.PAID;
+    }
+
+    private void verifyStatus() {
         if(this.status == BillStatus.CANCELLED) {
             throw new BillCancelledException();
         }
@@ -49,12 +58,29 @@ public class Bill {
             throw  new BillRefundedException();
         }
 
-        this.paidDate = LocalDate.now();
-        this.status = BillStatus.PAID;
+        if(this.status == BillStatus.PAID) {
+            throw new BillPaidException();
+        }
     }
 
     public void refund() {
         this.status = BillStatus.REFUNDED;
     }
 
+    public void patchBill(Bill billToUpdate) {
+
+        verifyStatus();
+
+        if(billToUpdate.getDueDate().isBefore(LocalDate.now())) {
+            throw new InvalidBillPeriodException();
+        }
+
+        if(billToUpdate.getAmount().floatValue() > 0f) {
+            this.amount = billToUpdate.getAmount();
+        }
+
+        if(billToUpdate.getDueDate() != null) {
+            this.dueDate = billToUpdate.getDueDate();
+        }
+    }
 }

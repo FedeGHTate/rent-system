@@ -74,9 +74,12 @@ public class BillGeneratorService {
         return billRepository.update(bill);
     }
 
-    public Bill update(String id) {
-        Bill bill = billRepository.getById(id).orElseThrow(BillNotFoundException::new);
+    public Bill update(Bill billToUpdate) {
 
-        // TODO
+        Bill bill = this.getById(billToUpdate.getId());
+
+        bill.patchBill(billToUpdate);
+
+        return this.billRepository.save(bill);
     }
 }
