@@ -15,6 +15,10 @@ public class TenantService {
 
     TenantRepository tenantRepository;
 
+    public TenantService(TenantRepository tenantRepository) {
+        this.tenantRepository = tenantRepository;
+    }
+
     public Tenant getById(String id) {
         Tenant tenant = tenantRepository.getById(id).orElseThrow(TenantNotFoundException::new);
         return tenant;
