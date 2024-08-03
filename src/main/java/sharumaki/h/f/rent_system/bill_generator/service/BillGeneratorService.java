@@ -45,7 +45,7 @@ public class BillGeneratorService {
             throw new MissingTenantException();
         }
 
-        Bill bill = new Bill(rent.getPrice(), LocalDate.now().plusDays(days),rent.getActualTenant());
+        Bill bill = new Bill(rent, LocalDate.now().plusDays(days));
 
         return billRepository.save(bill);
     }

@@ -61,7 +61,10 @@ class BillGeneratorServiceTest {
 
     @Test
     public void cannotBePaidABillCancelledOrRefunded() {
-        Bill aBill = new Bill(BigDecimal.valueOf(1), LocalDate.now(),mock(Tenant.class));
+
+        Rent aRent = new Rent("example",1,1f);
+        aRent.setActualTenant(mock(Tenant.class));
+        Bill aBill = new Bill(aRent, LocalDate.now());
         aBill.setId("1");
 
         doReturn(Optional.of(aBill)).when(billRepositoryMock).getById("1");

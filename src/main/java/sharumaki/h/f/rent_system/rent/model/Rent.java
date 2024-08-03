@@ -38,7 +38,7 @@ public class Rent {
         this.status = RentStatus.AVAILABLE;
     }
 
-    public void assignTenant(Tenant tenant) {
+    public void assignTenant(Tenant tenant, int amountOfPeople) {
 
         if(this.getStatus() == RentStatus.OCCUPIED) {
             throw new RentHasATenantException();
@@ -49,6 +49,7 @@ public class Rent {
         }
 
         this.actualTenant = tenant;
+        this.currentOccupancy = amountOfPeople;
         this.status = RentStatus.OCCUPIED;
     }
 

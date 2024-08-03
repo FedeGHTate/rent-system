@@ -60,7 +60,7 @@ public class TenantController {
                 .message("Tenant created")
                 .build();
 
-        return ResponseEntity.created(URI.create("/" + tenantCreated.getId())).body(apiResponse);
+        return ResponseEntity.created(URI.create("/tenants/" + tenantCreated.getId())).body(apiResponse);
     }
 
     @DeleteMapping("/{id}")

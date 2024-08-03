@@ -16,14 +16,31 @@ import java.util.List;
 public class BillGeneratorController {
     BillGeneratorService billGeneratorService;
 
+    public BillGeneratorController(BillGeneratorService billGeneratorService) {
+        this.billGeneratorService = billGeneratorService;
+    }
+
     @GetMapping
-    public ResponseEntity<List<Bill>> getAllBills() {
+    public ResponseEntity<ApiResponse<Object>> getAllBills() {
         List<Bill> bills = billGeneratorService.getAll();
-        return ResponseEntity.ok(bills);
+
+        ApiResponse<Object> apiResponse = ApiResponse.builder()
+                .value(bills)
+                .message("Bills founded")
+                .build();
+
+        return ResponseEntity.ok(apiResponse);
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Bill> getBill(@PathVariable String id) {
-        return ResponseEntity.ok(billGeneratorService.getById(id));
+    public ResponseEntity<ApiResponse<Object>> getBill(@PathVariable String id) {
+
+        Bill bill = billGeneratorService.getById(id);
+        ApiResponse<Object> apiResponse = ApiResponse.builder()
+                .value(bill)
+                .message("Bill found")
+                .build();
+
+        return ResponseEntity.ok(apiResponse);
     }
 
     @PostMapping
@@ -41,11 +58,13 @@ public class BillGeneratorController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<?> updateBill(@PathVariable String id,
+    public ResponseEntity<ApiResponse<Object>> updateBill(@PathVariable String id,
                                         @RequestBody BillUpdateRequestDTO billUpdateRequestDTO) {
 
-        Bill billToUpdate = new Bill(billUpdateRequestDTO.getAmount(),billUpdateRequestDTO.getDueDate(),null);
-        billToUpdate.setId(id);
+        Bill billToUpdate = Bill.builder()
+                .amount(billUpdateRequestDTO.getAmount())
+                .dueDate(billUpdateRequestDTO.getDueDate())
+                .build();
 
         Bill billUpdated = billGeneratorService.update(billToUpdate);
 
@@ -54,6 +73,42 @@ public class BillGeneratorController {
                 .message("Bill updated")
                 .build();
 
+
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @PostMapping("/{id}/pay")
+    public ResponseEntity<ApiResponse<Object>> pay(@PathVariable String id) {
+        Bill billPaid = billGeneratorService.pay(id);
+
+        ApiResponse<Object> apiResponse = ApiResponse.builder()
+                .value(billPaid)
+                .message("Bill paid")
+                .build();
+
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @PostMapping("/{id}/cancel")
+    public ResponseEntity<ApiResponse<Object>> cancel(@PathVariable String id) {
+        Bill billPaid = billGeneratorService.cancel(id);
+
+        ApiResponse<Object> apiResponse = ApiResponse.builder()
+                .value(billPaid)
+                .message("Bill cancelled")
+                .build();
+
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @PostMapping("/{id}/refund")
+    public ResponseEntity<ApiResponse<Object>> refund(@PathVariable String id) {
+        Bill billPaid = billGeneratorService.refund(id);
+
+        ApiResponse<Object> apiResponse = ApiResponse.builder()
+                .value(billPaid)
+                .message("Bill refunded")
+                .build();
 
         return ResponseEntity.ok(apiResponse);
     }

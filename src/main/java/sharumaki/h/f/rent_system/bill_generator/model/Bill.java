@@ -10,6 +10,7 @@ import sharumaki.h.f.rent_system.bill_generator.exceptions.BillCancelledExceptio
 import sharumaki.h.f.rent_system.bill_generator.exceptions.BillPaidException;
 import sharumaki.h.f.rent_system.bill_generator.exceptions.BillRefundedException;
 import sharumaki.h.f.rent_system.bill_generator.exceptions.InvalidBillPeriodException;
+import sharumaki.h.f.rent_system.rent.model.Rent;
 import sharumaki.h.f.rent_system.tenant.model.Tenant;
 
 import java.math.BigDecimal;
@@ -17,6 +18,8 @@ import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Document("biils")
 public class Bill {
     @Id
@@ -25,14 +28,17 @@ public class Bill {
     private LocalDate issueDate;
     private LocalDate dueDate;
     private Tenant tenant;
+    private BillRentInfo billRentInfo;
     private LocalDate paidDate;
     private BillStatus status;
 
-    public Bill(BigDecimal amount, LocalDate dueDate, Tenant tenant) {
-        this.amount = amount;
+    public Bill(Rent rent, LocalDate dueDate) {
+
+        this.amount = rent.getPrice();
+        this.billRentInfo = new BillRentInfo(rent.getId(),rent.getName());
         this.issueDate = LocalDate.now();
         this.dueDate = dueDate;
-        this.tenant = tenant;
+        this.tenant = rent.getActualTenant();
         this.paidDate = null;
         this.status = BillStatus.UNPAID;
     }

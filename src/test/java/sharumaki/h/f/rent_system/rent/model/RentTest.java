@@ -23,20 +23,20 @@ class RentTest {
 
     @Test
     public void assignATenantToAOccupiedRentThrowsException() {
-        aRent.assignTenant(aTenantMock);
-        assertThrows(RentHasATenantException.class,() -> aRent.assignTenant(aTenantMock));
+        aRent.assignTenant(aTenantMock,1);
+        assertThrows(RentHasATenantException.class,() -> aRent.assignTenant(aTenantMock,1));
     }
 
     @Test
     public void assignATenantToARentSuccessfully() {
-        aRent.assignTenant(aTenantMock);
+        aRent.assignTenant(aTenantMock,1);
 
         assertEquals(RentStatus.OCCUPIED,aRent.getStatus());
     }
 
     @Test
     public void thePriceForTheRentIs3000WithoutExpenses() {
-        aRent.assignTenant(aTenantMock);
+        aRent.assignTenant(aTenantMock,1);
         aRent.setPrice(BigDecimal.valueOf(3000));
 
         assertEquals(BigDecimal.valueOf(3000),aRent.getPrice());
@@ -47,7 +47,7 @@ class RentTest {
     public void anUnavailableRentCanBeAssignedToATenant() {
         aRent.disable();
 
-        assertThrows(RentIsUnavailableException.class, () -> aRent.assignTenant(aTenantMock));
+        assertThrows(RentIsUnavailableException.class, () -> aRent.assignTenant(aTenantMock,1));
     }
 
     @Test

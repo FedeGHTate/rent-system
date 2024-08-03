@@ -3,6 +3,7 @@ package sharumaki.h.f.rent_system.rent.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sharumaki.h.f.rent_system.common.reponse.ApiResponse;
+import sharumaki.h.f.rent_system.rent.dto.AssignTenantRequestDTO;
 import sharumaki.h.f.rent_system.rent.dto.RentCreateRequestDTO;
 import sharumaki.h.f.rent_system.rent.dto.RentDTO;
 import sharumaki.h.f.rent_system.rent.dto.RentUpdateRequestDTO;
@@ -88,6 +89,12 @@ public class RentController {
     public ResponseEntity deleteRent(@PathVariable String id) {
         this.rentService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{id}/assign")
+    public ResponseEntity assignTenant(@PathVariable String id, @RequestBody AssignTenantRequestDTO assignTenantRequestDTO) {
+        this.rentService.assignTenant(id,assignTenantRequestDTO.getTenantId(),assignTenantRequestDTO.getOccupancy());
+        return ResponseEntity.ok().build();
     }
 
 }

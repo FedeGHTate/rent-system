@@ -5,6 +5,8 @@ import sharumaki.h.f.rent_system.rent.exceptions.RentNotFoundException;
 import sharumaki.h.f.rent_system.rent.model.Rent;
 import sharumaki.h.f.rent_system.rent.model.RentStatus;
 import sharumaki.h.f.rent_system.rent.repository.RentRepository;
+import sharumaki.h.f.rent_system.tenant.model.Tenant;
+import sharumaki.h.f.rent_system.tenant.services.TenantService;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,9 +15,11 @@ import java.util.Optional;
 public class RentService {
 
     RentRepository rentRepository;
+    TenantService tenantService;
 
-    public RentService(RentRepository rentRepository) {
+    public RentService(RentRepository rentRepository, TenantService tenantService) {
         this.rentRepository = rentRepository;
+        this.tenantService = tenantService;
     }
 
     public Rent getById(String id) {
@@ -57,5 +61,13 @@ public class RentService {
 
         rent.disable();
 
+    }
+
+    public void assignTenant(String rentId, String tenantId, int amountOfPeople) {
+        Rent rent = this.getById(rentId);
+        Tenant tenant = this.tenantService.getById(tenantId);
+
+        rent.assignTenant(tenant,amountOfPeople);
+        rentRepository.update(rent);
     }
 }
