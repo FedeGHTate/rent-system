@@ -6,10 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import sharumaki.h.f.rent_system.bill_generator.exceptions.BillCancelledException;
-import sharumaki.h.f.rent_system.bill_generator.exceptions.BillPaidException;
-import sharumaki.h.f.rent_system.bill_generator.exceptions.BillRefundedException;
-import sharumaki.h.f.rent_system.bill_generator.exceptions.InvalidBillPeriodException;
+import sharumaki.h.f.rent_system.bill_generator.exceptions.*;
 import sharumaki.h.f.rent_system.rent.model.Rent;
 import sharumaki.h.f.rent_system.tenant.model.Tenant;
 
@@ -44,6 +41,7 @@ public class Bill {
     }
 
     public void cancel() {
+        verifyStatus();
         this.status = BillStatus.CANCELLED;
     }
 
@@ -70,6 +68,18 @@ public class Bill {
     }
 
     public void refund() {
+
+        if(this.status == BillStatus.CANCELLED) {
+            throw new BillCancelledException();
+        }
+
+        if (this.status == BillStatus.REFUNDED) {
+            throw  new BillRefundedException();
+        }
+
+        if (this.status == BillStatus.UNPAID) {
+            throw  new BillRefundUnpaidException();
+        }
         this.status = BillStatus.REFUNDED;
     }
 
