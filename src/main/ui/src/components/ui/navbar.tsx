@@ -1,3 +1,5 @@
+'use client'
+import { useRouter } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
 import { Button } from "./button";
 import {
@@ -15,16 +17,19 @@ const avatarImage =
   "https://wallpapers.com/images/hd/hololive-virtual-youtuber-tokoyami-towa-zllzj6bisgkr7rx2.jpg";
 
 export const Navbar = () => {
+
+  const router = useRouter()
+
   return (
     <>
       <header>
         <nav className="flex flex-row justify-between bg-slate-500 min-h-16 max-h-36 px-5">
-          <div className="flex flex-col justify-center content-center">
+          <button className="flex flex-col justify-center content-center" onClick={() => router.push('/')}>
             <Avatar className="size-8">
               <AvatarImage src={avatarImage} />
-              <AvatarFallback>Home</AvatarFallback>
+              <AvatarFallback>HI</AvatarFallback>
             </Avatar>
-          </div>
+          </button>
           <div className="flex flex-col justify-center content-center">
             <Sheet>
               <SheetTrigger>

@@ -1,23 +1,16 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Title } from "@/components/ui/title";
-import React from "react";
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
+import { Title } from '@/components/ui/title'
+import React from 'react'
 
 const avatarImage = "/images/rent.jpg";
 
-export default function RentId() {
-  const rent = {
-    title: "Alquiler 1",
-    description: "Alquiler 1, ...",
-    image: avatarImage,
-    route: "/1",
-  };
-
+export default function Add() {
   return (
     <main className="min-h-screen">
-      <Title title="Alquiler 1" backgroundImage={avatarImage} />
+      <Title title="Creación de alquiler" backgroundImage={avatarImage} />
       <div className="my-4 flex flex-col items-center">
         <div className="flex flex-col gap-4 justify-center">
           <div>
@@ -48,9 +41,9 @@ export default function RentId() {
           </div>
         </div>
         <div className="my-2">
-          <Button>Guardar cambios</Button>
+          <Button>Agregar</Button>
         </div>
       </div>
     </main>
-  );
+  )
 }

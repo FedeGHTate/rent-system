@@ -1,18 +1,21 @@
 import Image from "next/image";
 import React from "react";
 
-const avatarImage =
-  "https://wallpapers.com/images/hd/hololive-virtual-youtuber-tokoyami-towa-zllzj6bisgkr7rx2.jpg";
 
-export const Title = () => {
+interface TitleProps {
+  title: string;
+  backgroundImage: string;
+}
+
+export const Title = ({ title, backgroundImage } : TitleProps) => {
   return (
     <>
       <div className="h-2/5 h-80 relative flex flex-col justify-center items-center">
         <h1 className="text-center absolute z-10 text-2xl font-bold">
-          Bienvenido a Shalquiler!
+          {title}
         </h1>
-        <Image
-          src={avatarImage}
+        <Image className="blur-sm my-1"
+          src={backgroundImage}
           alt="holo"
           fill
           style={{ objectFit: "cover" }}
