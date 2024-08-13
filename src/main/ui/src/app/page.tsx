@@ -24,7 +24,7 @@ const optionList = [
   },
   {
     title: "Facturas",
-    description: "Visualización de todas las facturas",
+    description: "Visualización del historial de pagos",
     image: avatarImage,
     route: "/bills"
   },
