@@ -73,6 +73,20 @@ class BillGeneratorServiceTest {
             aBill.cancel();
             billGeneratorService.pay(aBill.getId());
         });
+    }
+
+    @Test
+    public void cannotBePaidABillRefunded() {
+
+        Rent aRent = new Rent("example",1,1f);
+        aRent.setActualTenant(mock(Tenant.class));
+        Bill aBill = new Bill(aRent, LocalDate.now());
+        aBill.setId("1");
+
+        doReturn(Optional.of(aBill)).when(billRepositoryMock).getById("1");
+
+        aBill.pay();
+
         assertThrows(BillRefundedException.class, () -> {
             aBill.refund();
             billGeneratorService.pay(aBill.getId());
