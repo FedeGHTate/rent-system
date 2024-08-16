@@ -11,49 +11,54 @@ export const getFetcher = async (resource : String) => {
     }
   })
 
-  if (res.ok!) {
+  if (!res.ok) {
     throw new Error("Network error")
   }
 
-  return res;
+  const data = await res.json()
+  return data;
 }
 
-export const postFetcher = async (resource : String, data : Object) => {
+export const postFetcher = async (resource : String, obj : Object) => {
 
   const res = await fetch(ENDPOINT + resource, {
     method: "POST",
     mode: "cors",
     headers: {
       Accept: "application/json",
+      "Content-Type": "application/json",
       //Authorization: "Bearer " + token
     },
-    body: JSON.stringify(data)
+    body: JSON.stringify(obj)
   })
 
-  if (res.ok!) {
+  if (!res.ok) {
     throw new Error("Network error")
   }
 
-  return res;
+  const data = await res.json()
+  return data;
 }
 
-export const patchFetcher = async (resource : String, data : Object) => {
+export const patchFetcher = async (resource : String, obj : Object) => {
 
   const res = await fetch(ENDPOINT + resource, {
     method: "PATCH",
     mode: "cors",
     headers: {
       Accept: "application/json",
+      "Content-Type": "application/json",
       //Authorization: "Bearer " + token
     },
-    body: JSON.stringify(data)
+    body: JSON.stringify(obj)
   })
 
-  if (res.ok!) {
+  if (!res.ok) {
     throw new Error("Network error")
   }
 
-  return res;
+  const data = await res.json()
+  return data;
 }
 
 export const deleteFetcher = async (resource : String) => {
@@ -67,9 +72,9 @@ export const deleteFetcher = async (resource : String) => {
     }
   })
 
-  if (res.ok!) {
+  if (!res.ok) {
     throw new Error("Network error")
   }
-
-  return res;
+  const data = await res.json()
+  return data;
 }

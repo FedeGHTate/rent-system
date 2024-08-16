@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/tenants")
+@CrossOrigin(origins = "http://localhost:3000")
 public class TenantController {
 
     TenantService tenantService;
@@ -26,7 +27,7 @@ public class TenantController {
 
         ApiResponse<Object> apiResponse = ApiResponse.builder()
                 .value(tenants)
-                .message("Tenants founded")
+                .message("Tenants found")
                 .build();
 
         return ResponseEntity.ok(apiResponse);

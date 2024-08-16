@@ -38,7 +38,7 @@ public class TenantService {
 
         tenant.patchTenant(tenantToUpdate);
 
-        return this.tenantRepository.save(tenant);
+        return this.tenantRepository.update(tenant);
     }
 
     public Tenant createTenant(Tenant tenant) {
