@@ -14,6 +14,7 @@ import sharumaki.h.f.rent_system.rent.model.RentStatus;
 public class RentDTO {
     private String id;
     private String name;
+    private String description;
     private int maximumOccupancy;
     private int currentOccupancy;
     private float price;

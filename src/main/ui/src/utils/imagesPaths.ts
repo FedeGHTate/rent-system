@@ -1,5 +1,5 @@
 export const rentSystemImages = {
-  rent : "/images/rent.png",
+  rent : "/images/rent.jpg",
   service : "/images/services.png",
   tax : "/images/tax.png",
   tenant : "/images/tenant.jpg",

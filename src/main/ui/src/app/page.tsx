@@ -6,25 +6,25 @@ const avatarImage = "/images/towa.jpg";
 const optionList = [
   {
     title: "Alquileres",
-    description: "Visualización de alquileres",
+    description: "Ver todos los alquileres",
     image: avatarImage,
     route: "/rents"
   },
   {
     title: "Inquilinos",
-    description: "Visualización de inquilinos",
+    description: "Ver todos los inquilinos",
     image: avatarImage,
     route: "/tenants"
   },
   {
     title: "Servicio",
-    description: "Visualización de servicios",
+    description: "Ver todos los servicios",
     image: avatarImage,
     route: "/services"
   },
   {
     title: "Facturas",
-    description: "Visualización del historial de pagos",
+    description: "Historial de facturas",
     image: avatarImage,
     route: "/bills"
   },

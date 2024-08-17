@@ -14,4 +14,5 @@ public class RentUpdateRequestDTO {
     private String name;
     private int maximumOccupancy;
     private float price;
+    private String description;
 }

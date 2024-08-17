@@ -19,6 +19,7 @@ public class Rent {
     @Id
     private String id;
     private String name;
+    private String description;
     private int maximumOccupancy;
     private int currentOccupancy;
     private BigDecimal price;
@@ -28,8 +29,9 @@ public class Rent {
     private LocalDate beginninOfPeriod;
     private LocalDate endOfPeriod;
 
-    public Rent(String name, int maximumOccupancy, Float price) {
+    public Rent(String name, String description, int maximumOccupancy, Float price) {
         this.name = name;
+        this.description = description;
         this.maximumOccupancy = maximumOccupancy;
         this.currentOccupancy = 0;
         this.price = BigDecimal.valueOf(price);
@@ -73,15 +75,19 @@ public class Rent {
 
     public void patchRent(Rent aRentToUpdate) {
 
-        if(aRentToUpdate.getName() != null) {
+        if(!aRentToUpdate.getName().isEmpty()) {
             this.name = aRentToUpdate.getName();
+        }
+
+        if(!aRentToUpdate.getDescription().isEmpty()) {
+            this.description = aRentToUpdate.getDescription();
         }
 
         if(aRentToUpdate.getMaximumOccupancy() > 0) {
             this.maximumOccupancy = aRentToUpdate.getMaximumOccupancy();
         }
 
-        if(aRentToUpdate.getPrice() != null ) {
+        if(aRentToUpdate.getPrice().floatValue() > 0) {
             this.price = aRentToUpdate.getPrice();
         }
     }

@@ -1,56 +1,157 @@
+'use client'
 import { Button } from "@/components/ui/button";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Title } from "@/components/ui/title";
+import { Toaster } from "@/components/ui/toaster";
+import { useToast } from "@/components/ui/use-toast";
+import { IApiResponse, IRent, IRentUpdateRequest } from "@/interfaces/rent-system-api";
+import { getFetcher, patchFetcher } from "@/utils/fetchers";
+import { rentSystemImages } from "@/utils/imagesPaths";
+import { rentSystemPaths } from "@/utils/path";
+import { useParams } from "next/navigation";
 import React from "react";
-
-const avatarImage = "/images/rent.jpg";
+import { useForm } from "react-hook-form";
+import useSWR from "swr";
 
 export default function RentId() {
-  const rent = {
-    title: "Alquiler 1",
-    description: "Alquiler 1, ...",
-    image: avatarImage,
-    route: "/1",
-  };
+
+
+  const { rentId } = useParams<{ rentId: string }>();
+  const { toast } = useToast();
+
+  const form = useForm();
+
+  const { data, error, isLoading } = useSWR<IApiResponse<IRent>>(
+    rentSystemPaths.rents.details(rentId),
+    () => getFetcher(rentSystemPaths.rents.details(rentId))
+  );
+
+  
+  const onSubmit = async () => {
+
+    try{
+
+      const values = form.getValues();
+      const obj: IRentUpdateRequest= {
+        name: values.name || "",
+        maximumOccupancy: values.maximumOccupancy || 0,
+        price: values.price || 0,
+        description: values.description || ""
+      }
+
+      console.log(obj)
+
+      const newData = await patchFetcher(rentSystemPaths.rents.edit(rentId),obj);
+      toast({
+        title: "Cambio guardado!",
+        description: "El cambio de la renta fue exitosa.",
+      })
+    } catch(error) {
+      toast({
+        title: "Uh hubo un problema!",
+        variant: "destructive",
+        description: "Hubo un problema al tratar de modificar el alquiler. Intento luego o consulte a un administrador."
+      })
+    }
+  }
 
   return (
     <main className="min-h-screen">
-      <Title title="Alquiler 1" backgroundImage={avatarImage} />
-      <div className="my-4 flex flex-col items-center">
-        <div className="flex flex-col gap-4 justify-center">
-          <div>
-            <Label htmlFor="name">Nombre del alquiler</Label>
-            <Input
-              type="text"
-              id="name"
-              placeholder="Ejemplo: Alquiler numero 1"
-            ></Input>
+      {isLoading ? (
+        "Cargando.. "
+      ) : error ? (
+        error.message
+      ) : (
+        <>
+          <Title
+            title={`${data?.value.name}`}
+            backgroundImage={rentSystemImages.rent}
+          />
+ <div className="my-4 flex flex-col items-center">
+          <Form {...form}>
+            <form className="flex flex-col gap-4 justify-center" onSubmit={form.handleSubmit(onSubmit)}>
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Nombre</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Ej: Casita azul"
+                        defaultValue={data?.value.name}
+                        onChange={(e) => field.onChange(e.target.value)}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Descripción</FormLabel>
+                  <FormControl>
+                  <Textarea
+                    placeholder="Ejemplo: 2 cuartos + baño"
+                    className="resize-none"
+                    defaultValue={data?.value.description}
+                    {...field }
+                  ></Textarea>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="maximumOccupancy"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Maxima cantidad de personas aceptadas</FormLabel>
+                  <FormControl>
+                    <Input
+                      required
+                      type="number"
+                      defaultValue={data?.value.maximumOccupancy}
+                      placeholder="Ej: 3"
+                      onChange={(e) => field.onChange(e.target.valueAsNumber)}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="price"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Precio (?)</FormLabel>
+                  <FormControl>
+                    <Input
+                      required
+                      type="number"
+                      defaultValue={data?.value.price}
+                      placeholder="Ej: 199.9"
+                      onChange={(e) => field.onChange(e.target.valueAsNumber)}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+              <Button className="my-2" type="submit">Guardar cambios</Button>
+            </form>
+          </Form>
           </div>
-
-          <div>
-            <Label htmlFor="description">Descripción del alquiler</Label>
-            <Textarea
-              id="description"
-              placeholder="Ejemplo: 2 cuartos + baño"
-            ></Textarea>
-          </div>
-
-          <div>
-            <Label htmlFor="price">Precio del alquiler</Label>
-            <Input type="number" id="price" placeholder="0.0"></Input>
-          </div>
-
-          <div>
-            <Label htmlFor="maxOccupancy">Cantidad máxima de inquilinos</Label>
-            <Input type="number" id="maxOccupancy" placeholder="5"></Input>
-          </div>
-        </div>
-        <div className="my-2">
-          <Button>Guardar cambios</Button>
-        </div>
-      </div>
+          <Toaster />
+        </>
+      )}
     </main>
   );
 }

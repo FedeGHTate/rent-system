@@ -14,6 +14,7 @@ public class RentMapper {
                 .maximumOccupancy(rent.getMaximumOccupancy())
                 .currentOccupancy(rent.getCurrentOccupancy())
                 .price(rent.getPrice().floatValue())
+                .description(rent.getDescription())
                 .actualTenant(rent.getActualTenant())
                 .leaseTerm(rent.getLeaseTerm())
                 .status(rent.getStatus())

@@ -14,6 +14,7 @@ import sharumaki.h.f.rent_system.tenant.model.Tenant;
 public class RentCreateRequestDTO {
     private String name;
     private int maximumOccupancy;
+    private String description;
     private float price;
     private String tenantId;
 }

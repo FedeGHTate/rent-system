@@ -16,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/rents")
+@CrossOrigin(origins = "http://localhost:3000")
 public class RentController {
 
     RentService rentService;
@@ -56,7 +57,7 @@ public class RentController {
 
     @PostMapping
     public ResponseEntity createRent(@RequestBody RentCreateRequestDTO rent) {
-        Rent createdRent = this.rentService.createRent(new Rent(rent.getName(),rent.getMaximumOccupancy(),rent.getPrice()));
+        Rent createdRent = this.rentService.createRent(new Rent(rent.getName(), rent.getDescription(),rent.getMaximumOccupancy(),rent.getPrice()));
         RentDTO responseDTO = this.rentMapper.mapToRentDTO(createdRent);
 
         ApiResponse<Object> apiResponse = ApiResponse.builder()
@@ -71,7 +72,7 @@ public class RentController {
     public ResponseEntity updateRent(@PathVariable String id, @RequestBody RentUpdateRequestDTO rent) {
 
 
-        Rent aRentToUpdate = new Rent(rent.getName(),rent.getMaximumOccupancy(),rent.getPrice());
+        Rent aRentToUpdate = new Rent(rent.getName(), rent.getDescription(),rent.getMaximumOccupancy(),rent.getPrice());
         aRentToUpdate.setId(id);
 
         Rent rentUpdated = this.rentService.update(aRentToUpdate);

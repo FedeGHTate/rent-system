@@ -18,7 +18,7 @@ const adapterToOptionList = (tenantList : Array<ITenant>) => {
       title: `${t.firstname} ${t.lastname}`,
       description: `Ver información de ${t.firstname} ${t.lastname}`,
       image: rentSystemImages.tenant,
-      route: `/tenants/${t.id}`
+      route: rentSystemPaths.tenants.details(t.id)
     }
   })
 };

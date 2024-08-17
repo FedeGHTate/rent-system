@@ -36,7 +36,7 @@ public class RentService {
 
         rent.patchRent(aRentToUpdate);
 
-        return this.rentRepository.save(rent);
+        return this.rentRepository.update(rent);
     }
 
     public void delete(String id) {
