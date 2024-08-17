@@ -94,6 +94,7 @@
 					<classes>
 						<class>sharumaki.h.f.rent_system.bill_generator.dto.BillCreateRequestDTO</class>
 						<class>sharumaki.h.f.rent_system.bill_generator.dto.BillUpdateRequestDTO</class>
+						<class>sharumaki.h.f.rent_system.bill_generator.model.Bill</class>
 						<class>sharumaki.h.f.rent_system.common.reponse.ApiResponse</class>
 						<class>sharumaki.h.f.rent_system.rent.dto.AssignTenantRequestDTO</class>
 						<class>sharumaki.h.f.rent_system.rent.dto.RentCreateRequestDTO</class>

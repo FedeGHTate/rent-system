@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 3.2.1263 on 2024-08-16 22:38:30.
+// Generated using typescript-generator version 3.2.1263 on 2024-08-17 00:11:35.
 
 export interface IBillCreateRequest {
     rentId: string;
@@ -10,6 +10,17 @@ export interface IBillCreateRequest {
 export interface IBillUpdateRequest {
     amount: number;
     dueDate: Date;
+}
+
+export interface IBill {
+    id: string;
+    amount: number;
+    issueDate: Date;
+    dueDate: Date;
+    tenant: ITenant;
+    billRentInfo: IBillRentInfo;
+    paidDate: Date;
+    status: IBillStatus;
 }
 
 export interface IApiResponse<T> {
@@ -63,5 +74,12 @@ export interface ITenant {
     dni: string;
     contactNumber: string;
 }
+
+export interface IBillRentInfo {
+    id: string;
+    rentName: string;
+}
+
+export type IBillStatus = "PAID" | "UNPAID" | "CANCELLED" | "REFUNDED";
 
 export type IRentStatus = "AVAILABLE" | "UNAVAILABLE" | "OCCUPIED";
