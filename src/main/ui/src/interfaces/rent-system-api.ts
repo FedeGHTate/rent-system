@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 3.2.1263 on 2024-08-17 00:11:35.
+// Generated using typescript-generator version 3.2.1263 on 2024-08-22 11:46:25.
 
 export interface IBillCreateRequest {
     rentId: string;
@@ -65,6 +65,17 @@ export interface ITenantRequest {
     lastname: string;
     dni: string;
     contactNumber: string;
+}
+
+export interface IService {
+    id: string;
+    name: string;
+    price: number;
+}
+
+export interface IServiceRequest {
+    name: string;
+    price: number;
 }
 
 export interface ITenant {
