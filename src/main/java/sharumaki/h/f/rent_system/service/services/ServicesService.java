@@ -33,6 +33,10 @@ public class ServicesService {
     }
 
     public Service update(Service serviceWithChanges) {
-        return this.serviceRepository.update(serviceWithChanges);
+
+        Service service = this.getById(serviceWithChanges.getId());
+        service.patchService(serviceWithChanges);
+
+        return this.serviceRepository.update(service);
     }
 }

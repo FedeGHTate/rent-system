@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { OptionList } from "@/components/ui/optionList";
 import { Title } from "@/components/ui/title";
+import { IApiResponse, IService } from "@/interfaces/rent-system-api";
 import { getFetcher } from "@/utils/fetchers";
 import { rentSystemImages } from "@/utils/imagesPaths";
 import { rentSystemPaths } from "@/utils/path";
@@ -10,30 +11,22 @@ import { useRouter } from "next/navigation";
 import useSWR from "swr";
 
 
-const adapterToOptionList = (serviceList : any) => {
+const adapterToOptionList = (serviceList : Array<IService>) => {
 
-  const optionList = [
-    {
-      title: "Example 1",
-      description: "Example 1, ...",
+  return serviceList.map(r => {
+    return {
+      title: r.name,
+      description: `Información del servicio de ${r.name}`,
       image: rentSystemImages.service,
-      route: "services/1"
-    },
-    {
-      title: "Example 2",
-      description: "Visualizacion alquiler 2",
-      image: rentSystemImages.service,
-      route: "services/2"
-    },
-  ];
-
-  return optionList;
+      route: rentSystemPaths.services.details(r.id)
+    }
+  })
 };
 
 export default function Services() {
 
   const router = useRouter();
-  const { data, error, isLoading } = useSWR(rentSystemPaths.services.base, () => getFetcher(rentSystemPaths.services.base));
+  const { data, error, isLoading } = useSWR<IApiResponse<Array<IService>>>(rentSystemPaths.services.base, () => getFetcher(rentSystemPaths.services.base));
 
 
 

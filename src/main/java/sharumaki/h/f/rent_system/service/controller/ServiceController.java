@@ -64,10 +64,11 @@ public class ServiceController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ApiResponse<Object>> update(@PathVariable String id, @RequestBody Service serviceModified) {
+    public ResponseEntity<ApiResponse<Object>> update(@PathVariable String id, @RequestBody ServiceRequestDTO serviceDTO) {
 
-        Service serviceUpdated = servicesService.update(serviceModified);
-        serviceUpdated.setId(id);
+        Service serviceToModify = new Service(id,serviceDTO.getName(), serviceDTO.getPrice());
+
+        Service serviceUpdated = servicesService.update(serviceToModify);
 
         ApiResponse<Object> apiResponse = ApiResponse.builder()
                 .value(serviceUpdated)
