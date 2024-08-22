@@ -17,6 +17,10 @@ public class ServiceController {
 
     ServicesService servicesService;
 
+    public ServiceController(ServicesService servicesService) {
+        this.servicesService = servicesService;
+    }
+
     @PostMapping
     public ResponseEntity<ApiResponse<Object>> create(@RequestBody ServiceRequestDTO serviceRequestDTO) {
 
@@ -72,7 +76,7 @@ public class ServiceController {
 
         return ResponseEntity.ok().body(apiResponse);
     }
-
+    @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<Object>> delete(@PathVariable String id) {
         servicesService.deleteById(id);
         return ResponseEntity.noContent().build();

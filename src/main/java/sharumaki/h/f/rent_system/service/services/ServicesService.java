@@ -12,6 +12,9 @@ public class ServicesService {
 
     ServiceRepository serviceRepository;
 
+    public ServicesService(ServiceRepository serviceRepository) {
+        this.serviceRepository = serviceRepository;
+    }
 
     public List<Service> getAll() {
         return this.serviceRepository.getAll().orElseThrow(ServiceNotFoundException::new);
