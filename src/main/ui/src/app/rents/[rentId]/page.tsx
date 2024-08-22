@@ -41,8 +41,6 @@ export default function RentId() {
         description: values.description || ""
       }
 
-      console.log(obj)
-
       const newData = await patchFetcher(rentSystemPaths.rents.edit(rentId),obj);
       toast({
         title: "Cambio guardado!",
