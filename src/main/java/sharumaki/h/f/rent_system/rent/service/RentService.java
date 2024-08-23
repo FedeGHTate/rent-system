@@ -3,13 +3,11 @@ package sharumaki.h.f.rent_system.rent.service;
 import org.springframework.stereotype.Service;
 import sharumaki.h.f.rent_system.rent.exceptions.RentNotFoundException;
 import sharumaki.h.f.rent_system.rent.model.Rent;
-import sharumaki.h.f.rent_system.rent.model.RentStatus;
 import sharumaki.h.f.rent_system.rent.repository.RentRepository;
 import sharumaki.h.f.rent_system.tenant.model.Tenant;
 import sharumaki.h.f.rent_system.tenant.services.TenantService;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class RentService {
@@ -49,11 +47,12 @@ public class RentService {
         return rents;
     }
 
-    public void closeRent(String rentId, String tenantId) {
+    public void clearRentTenant(String rentId) {
         Rent rent = this.getById(rentId);
 
-        rent.close();
+        rent.clearTenant();
 
+        rentRepository.update(rent);
     }
 
     public void disableTenantAllocation(String rentId) {
@@ -63,11 +62,12 @@ public class RentService {
 
     }
 
-    public void assignTenant(String rentId, String tenantId, int amountOfPeople) {
+    public Rent assignTenant(String rentId, String tenantId, int amountOfPeople) {
         Rent rent = this.getById(rentId);
         Tenant tenant = this.tenantService.getById(tenantId);
 
         rent.assignTenant(tenant,amountOfPeople);
-        rentRepository.update(rent);
+
+        return rentRepository.update(rent);
     }
 }

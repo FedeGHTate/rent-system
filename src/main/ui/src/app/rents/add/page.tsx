@@ -23,6 +23,7 @@ import { rentSystemPaths } from "@/utils/path";
 import { postFetcher } from "@/utils/fetchers";
 import { ToastAction } from "@/components/ui/toast";
 import { Toaster } from "@/components/ui/toaster";
+import { IApiResponse, IRent } from "@/interfaces/rent-system-api";
 
 const rentFormSchema = z.object({
   name: z.string().min(1, {
@@ -44,19 +45,20 @@ export default function Add() {
 
   const onSubmit = async () => {
     try {
-      const res = await postFetcher(
+      const res : IApiResponse<IRent> = await postFetcher(
         rentSystemPaths.rents.base,
         form.getValues()
       );
+
       toast({
         title: "Alquiler creado!",
         description: "La creación del alquiler fue exitosa.",
         action: (
           <ToastAction
-            altText="Ver alquileres"
-            onClick={() => router.push(rentSystemPaths.rents.base)}
+            altText="Ver alquiler"
+            onClick={() => router.push(rentSystemPaths.rents.details(res.value.id))}
           >
-            Ver alquileres
+            Ver alquiler
           </ToastAction>
         ),
       });

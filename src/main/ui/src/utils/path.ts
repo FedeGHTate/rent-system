@@ -6,6 +6,7 @@ export const rentSystemPaths = {
     base: "/rents",
     details: (id: string) => `/rents/${id}`,
     edit: (id: string) => `/rents/${id}`,
+    assignTenant: (id: string) => `/rents/${id}/assign`
   },
   services: {
     base: "/services",

@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Title } from "@/components/ui/title";
 import { Toaster } from "@/components/ui/toaster";
@@ -10,16 +11,30 @@ import { IApiResponse, IRent, IRentUpdateRequest } from "@/interfaces/rent-syste
 import { getFetcher, patchFetcher } from "@/utils/fetchers";
 import { rentSystemImages } from "@/utils/imagesPaths";
 import { rentSystemPaths } from "@/utils/path";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
 import useSWR from "swr";
+
+function translateRentStatus(status: string | undefined): string {
+  switch (status) {
+      case "AVAILABLE":
+          return "Disponible";
+      case "UNAVAILABLE":
+          return "No disponible";
+      case "OCCUPIED":
+          return "Ocupado";
+      default:
+          return "Estado desconocido";
+  }
+}
 
 export default function RentId() {
 
 
   const { rentId } = useParams<{ rentId: string }>();
   const { toast } = useToast();
+  const router = useRouter();
 
   const form = useForm();
 
@@ -143,9 +158,20 @@ export default function RentId() {
                 </FormItem>
               )}
             />
+            <Label>Estado actual</Label>
+            <Input disabled type="status" placeholder={translateRentStatus(data?.value.status)} />
+            {
+              data?.value.status == "AVAILABLE"? "" : (
+                <>
+                  <Label>Inquilino</Label>
+                  <Input disabled type="text" placeholder={`${data?.value.actualTenant.lastname} ${data?.value.actualTenant.firstname}`} />
+                </>
+              )
+            }
               <Button className="my-2" type="submit">Guardar cambios</Button>
             </form>
           </Form>
+          <Button variant="outline" className="my-2 bg-green-400	" onClick={() => router.push(`/rents/${rentId}/assign`)}>Cambiar/Asignar inquilino</Button>
           </div>
           <Toaster />
         </>

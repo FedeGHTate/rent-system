@@ -64,9 +64,10 @@ public class Rent {
         this.status = RentStatus.UNAVAILABLE;
     }
 
-    public void close() {
+    public void clearTenant() {
 
-        if(this.status == RentStatus.AVAILABLE) {
+        if(this.status == RentStatus.OCCUPIED) {
+            this.setActualTenant(null);
             this.status = RentStatus.AVAILABLE;
         } else {
             throw new RentException("It's already closed");

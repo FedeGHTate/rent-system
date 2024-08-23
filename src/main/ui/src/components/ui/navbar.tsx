@@ -12,9 +12,8 @@ import {
   SheetTrigger,
 } from "./sheet";
 import { LuMenu } from "react-icons/lu";
-
-const avatarImage =
-  "https://wallpapers.com/images/hd/hololive-virtual-youtuber-tokoyami-towa-zllzj6bisgkr7rx2.jpg";
+import { rentSystemPaths } from "@/utils/path";
+import { rentSystemImages } from "@/utils/imagesPaths";
 
 export const Navbar = () => {
 
@@ -26,7 +25,7 @@ export const Navbar = () => {
         <nav className="flex flex-row justify-between bg-slate-500 min-h-16 max-h-36 px-5">
           <button className="flex flex-col justify-center content-center" onClick={() => router.push('/')}>
             <Avatar className="size-8">
-              <AvatarImage src={avatarImage} />
+              <AvatarImage src={rentSystemImages.background} />
               <AvatarFallback>HI</AvatarFallback>
             </Avatar>
           </button>
@@ -39,11 +38,12 @@ export const Navbar = () => {
                 <SheetHeader>
                   <SheetTitle>Opciones</SheetTitle>
                   <SheetDescription>
-                    <ul>
-                      <li>
-                      <Button variant="secondary" type="submit">Mi perfil</Button>
-                      </li>
-                    </ul>
+                    <div className="flex flex-col gap-2">
+                      <Button variant="secondary" onClick={() => router.push(rentSystemPaths.rents.base)}>Alquileres</Button>
+                      <Button variant="secondary" onClick={() => router.push(rentSystemPaths.tenants.base)}>Inquilinos</Button>
+                      <Button variant="secondary" onClick={() => router.push(rentSystemPaths.services.base)}>Servicios</Button>
+                      <Button variant="secondary" onClick={() => router.push(rentSystemPaths.bills.base)}>Facturas</Button>
+                    </div>
                   </SheetDescription>
                 </SheetHeader>
                 <SheetFooter className="mt-8">

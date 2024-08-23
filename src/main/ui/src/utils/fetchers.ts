@@ -75,6 +75,6 @@ export const deleteFetcher = async (resource : String) => {
   if (!res.ok) {
     throw new Error("Network error")
   }
-  const data = await res.json()
-  return data;
+
+  return;
 }

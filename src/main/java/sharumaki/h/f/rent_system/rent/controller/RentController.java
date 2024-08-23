@@ -94,8 +94,21 @@ public class RentController {
 
     @PostMapping("/{id}/assign")
     public ResponseEntity assignTenant(@PathVariable String id, @RequestBody AssignTenantRequestDTO assignTenantRequestDTO) {
-        this.rentService.assignTenant(id,assignTenantRequestDTO.getTenantId(),assignTenantRequestDTO.getOccupancy());
-        return ResponseEntity.ok().build();
+        Rent rentUpdated = this.rentService.assignTenant(id,assignTenantRequestDTO.getTenantId(),assignTenantRequestDTO.getOccupancy());
+
+        RentDTO responseDTO = this.rentMapper.mapToRentDTO(rentUpdated);
+
+        ApiResponse<Object> apiResponse = ApiResponse.builder()
+                .value(responseDTO)
+                .message("Rent updated")
+                .build();
+
+        return ResponseEntity.ok().body(apiResponse);
     }
 
+    @DeleteMapping("/{id}/assign")
+    public ResponseEntity deleteAssignedTenant(@PathVariable String id) {
+        this.rentService.clearRentTenant(id);
+        return ResponseEntity.ok().build();
+    }
 }
