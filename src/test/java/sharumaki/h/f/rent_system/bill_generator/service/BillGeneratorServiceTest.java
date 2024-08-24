@@ -39,7 +39,7 @@ class BillGeneratorServiceTest {
 
     @Test
     public void minimumPeriodOfMonthMustBeMoreThanZero() {
-        Rent aRent = new Rent("example",1,1f);
+        Rent aRent = new Rent("example","A Description",1,1f);
         aRent.setActualTenant(mock(Tenant.class));
 
         doReturn(mock(Bill.class)).when(billRepositoryMock).save(Mockito.any(Bill.class));
@@ -51,7 +51,7 @@ class BillGeneratorServiceTest {
 
     @Test
     public void throwsExceptionBecauseARentMustHaveATenantToCreateABill() {
-        Rent aRent = new Rent("example",1,1f);
+        Rent aRent = new Rent("example","A Description",1,1f);
 
         doReturn(mock(Bill.class)).when(billRepositoryMock).save(Mockito.any(Bill.class));
         doReturn(aRent).when(rentServiceMock).getById(Mockito.anyString());
@@ -62,7 +62,7 @@ class BillGeneratorServiceTest {
     @Test
     public void cannotBePaidABillCancelledOrRefunded() {
 
-        Rent aRent = new Rent("example",1,1f);
+        Rent aRent = new Rent("example","A Description",1,1f);
         aRent.setActualTenant(mock(Tenant.class));
         Bill aBill = new Bill(aRent, LocalDate.now());
         aBill.setId("1");
@@ -78,7 +78,7 @@ class BillGeneratorServiceTest {
     @Test
     public void cannotBePaidABillRefunded() {
 
-        Rent aRent = new Rent("example",1,1f);
+        Rent aRent = new Rent("example","A Description",1,1f);
         aRent.setActualTenant(mock(Tenant.class));
         Bill aBill = new Bill(aRent, LocalDate.now());
         aBill.setId("1");

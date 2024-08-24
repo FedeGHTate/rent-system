@@ -164,6 +164,7 @@ export default function Add() {
                   <FormControl>
                     <Switch
                       checked={field.value}
+                      disabled
                       onCheckedChange={field.onChange}
                       aria-readonly
                     />

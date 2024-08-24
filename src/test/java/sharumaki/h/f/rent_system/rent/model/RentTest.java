@@ -17,7 +17,7 @@ class RentTest {
     Tenant aTenantMock;
     @BeforeEach
     void init() {
-        aRent = new Rent("Rent 1",2, 199f);
+        aRent = new Rent("Rent 1","A Description",2, 199f);
         aTenantMock = mock(Tenant.class);
     }
 
@@ -52,7 +52,7 @@ class RentTest {
 
     @Test
     public void rentUpdatedSuccessfully() {
-        Rent rentToupdate = new Rent("Howdy",99,9999f);
+        Rent rentToupdate = new Rent("Howdy","A Description",99,9999f);
         aRent.patchRent(rentToupdate);
 
         assertEquals("Howdy",aRent.getName());
