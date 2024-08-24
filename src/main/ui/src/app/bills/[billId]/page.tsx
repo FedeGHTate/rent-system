@@ -43,21 +43,23 @@ export default function Bill() {
       let response : IApiResponse<IBill>; 
       switch (submitType) {
         case SubmitAction.PAY:
-          await mutate(() => postFetcher(rentSystemPaths.bills.pay(id), {}));
+          response = await postFetcher(rentSystemPaths.bills.pay(id), {});
           break;
       
         case SubmitAction.REFUND:
-          await mutate(() => postFetcher(rentSystemPaths.bills.refund(id), {}));
+          response = await postFetcher(rentSystemPaths.bills.refund(id), {});
           break;
       
         case SubmitAction.CANCEL:
-          await mutate(() => postFetcher(rentSystemPaths.bills.cancel(id), {}));
+          response = await postFetcher(rentSystemPaths.bills.cancel(id), {});
           break;
       
         default:
           throw new Error("Error")
           break;
       }
+
+      mutate(response)
       toast({
         title: "Listo!",
         description: "Cambio completado!",
@@ -105,7 +107,7 @@ export default function Bill() {
                 <Input
                   id="tenantName"
                   disabled
-                  defaultValue={`${data?.value.tenant.firstname} ${data?.value.tenant.lastname}`}
+                  value={`${data?.value.tenant.firstname} ${data?.value.tenant.lastname}`}
                   className="col-span-3"
                 />
               </div>
@@ -116,7 +118,7 @@ export default function Bill() {
                 <Input
                   id="rentName"
                   disabled
-                  defaultValue={data?.value.billRentInfo.rentName}
+                  value={data?.value.billRentInfo.rentName}
                   className="col-span-3"
                 />
               </div>
@@ -127,7 +129,7 @@ export default function Bill() {
                 <Input
                   id="price"
                   disabled
-                  defaultValue={`${data?.value.amount} $`}
+                  value={`${data?.value.amount} $`}
                   className="col-span-3"
                 />
               </div>
@@ -138,7 +140,7 @@ export default function Bill() {
                 <Input
                   id="issueDate"
                   disabled
-                  defaultValue={formatDateToDDMMYY(data?.value.issueDate!)}
+                  value={formatDateToDDMMYY(data?.value.issueDate!)}
                   className="col-span-3"
                 />
               </div>
@@ -150,7 +152,7 @@ export default function Bill() {
                   <Input
                     id="paidDate"
                     disabled
-                    defaultValue={formatDateToDDMMYY(data?.value.paidDate)}
+                    value={formatDateToDDMMYY(data?.value.paidDate)}
                     className="col-span-3"
                   />
                 </div>
@@ -164,7 +166,7 @@ export default function Bill() {
                   <Input
                     id="dueDate"
                     disabled
-                    defaultValue={formatDateToDDMMYY(data?.value.dueDate!)}
+                    value={formatDateToDDMMYY(data?.value.dueDate!)}
                     className="col-span-3"
                   />
                 </div>
@@ -176,7 +178,7 @@ export default function Bill() {
                 <Input
                   id="status"
                   disabled
-                  defaultValue={translateBillStatus(data?.value.status!)}
+                  value={translateBillStatus(data?.value.status!)}
                   className="col-span-3"
                 />
               </div>
