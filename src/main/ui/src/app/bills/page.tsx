@@ -1,80 +1,55 @@
-import { Input } from "@/components/ui/input";
+"use client";
 import { Title } from "@/components/ui/title";
 import { DataTable } from "./data-table";
 import { rentSystemImages } from "@/utils/imagesPaths";
 import { columns } from "./columns";
-import { IBill } from "@/interfaces/rent-system-api";
+import { IApiResponse, IBill } from "@/interfaces/rent-system-api";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import { rentSystemPaths } from "@/utils/path";
+import useSWR from "swr";
+import { getFetcher, postFetcher } from "@/utils/fetchers";
 
-function getData(): Array<IBill> {
-  return [
-    {
-      id: "1",
-      amount: 1200,
-      issueDate: new Date("2024-01-10T00:00:00Z"),
-      dueDate: new Date("2024-02-10T00:00:00Z"),
-      tenant: {
-        id: "t1",
-        firstname: "Juan",
-        lastname: "Pérez",
-        dni: "12345678X",
-        contactNumber: "+34123456789"
-      },
-      billRentInfo: {
-        id: "r1",
-        rentName: "Alquiler Enero"
-      },
-      paidDate: new Date("2024-01-15T00:00:00Z"),
-      status: "PAID"
-    },
-    {
-      id: "2",
-      amount: 1500,
-      issueDate: new Date("2024-02-10T00:00:00Z"),
-      dueDate: new Date("2024-03-10T00:00:00Z"),
-      tenant: {
-        id: "t2",
-        firstname: "María",
-        lastname: "García",
-        dni: "87654321Y",
-        contactNumber: "+34987654321"
-      },
-      billRentInfo: {
-        id: "r2",
-        rentName: "Alquiler Febrero"
-      },
-      paidDate: new Date("2024-01-15T00:00:00Z"),
-      status: "UNPAID"
-    },
-    {
-      id: "3",
-      amount: 1300,
-      issueDate: new Date("2024-03-10T00:00:00Z"),
-      dueDate: new Date("2024-04-10T00:00:00Z"),
-      tenant: {
-        id: "t3",
-        firstname: "Pedro",
-        lastname: "López",
-        dni: "23456789Z",
-        contactNumber: "+34234567890"
-      },
-      billRentInfo: {
-        id: "r3",
-        rentName: "Alquiler Marzo"
-      },
-      paidDate: new Date("2024-01-15T00:00:00Z"),
-      status: "REFUNDED"
-    }
-  ]
-}
 
 export default function Bill() {
+  const router = useRouter();
+  const { data, isLoading, error } = useSWR<IApiResponse<Array<IBill>>>(
+    rentSystemPaths.bills.base,
+    () => getFetcher(rentSystemPaths.bills.base)
+  );
+
+  const onPayClick = async (id : string) => {
+    await postFetcher(rentSystemPaths.bills.pay(id), {})
+  }
+  
+  const onRefundClick = async (id : string) => {
+    await postFetcher(rentSystemPaths.bills.refund(id), {})
+  }
+  
+  const onCancelClick = async (id : string) => {  
+    await postFetcher(rentSystemPaths.bills.cancel(id), {})
+    router.refresh();
+
+  }
 
   return (
-    <main className='min-h-screen'>
-      <Title title='Facturas' backgroundImage={rentSystemImages.tax} />
-      <div className='my-4 flex flex-col items-center'>
-      </div>
-      <DataTable columns={columns} data={getData()} />
+    <main className="min-h-screen">
+      <Title title="Facturas" backgroundImage={rentSystemImages.tax} />
+
+      {isLoading ? (
+        "Cargando .."
+      ) : error ? (
+        error.message
+      ) : (
+        <>
+          <div className="my-4 flex flex-row gap-2 justify-center">
+            <Button onClick={() => router.push(rentSystemPaths.bills.create)}>
+              Crear factura
+            </Button>
+          </div>
+          <DataTable columns={columns} onCancelClick={onPayClick} onPayClick={onPayClick} onRefundClick={onRefundClick}  data={data?.value!} />
+        </>
+      )}
     </main>
-  )
+  );
 }

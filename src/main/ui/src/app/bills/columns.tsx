@@ -11,32 +11,12 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { IBill, IBillRentInfo, ITenant } from "@/interfaces/rent-system-api";
+import { IBill } from "@/interfaces/rent-system-api";
+import { formatDateToDDMMYY } from "@/utils/formatDateToDDMMY";
+import { rentSystemPaths } from "@/utils/path";
+import { translateBillStatus } from "@/utils/translateBillStatus";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
-
-const formatDateToDDMMYY = (date: Date) => {
-  const day = String(date.getDate()).padStart(2, "0");
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const year = String(date.getFullYear()).slice(-2);
-
-  return `${day}/${month}/${year}`;
-};
-
-const translateBillStatus = (status: string) => {
-  switch (status) {
-    case "PAID":
-      return "Pagado✅";
-    case "UNPAID":
-      return "No pagado⏱";
-    case "CANCELLED":
-      return "Cancelado❌";
-    case "REFUNDED":
-      return "Reembolsado♻";
-    default:
-      throw new Error("Estado de factura desconocido");
-  }
-};
 
 export const columns: ColumnDef<IBill>[] = [
   {
@@ -69,7 +49,8 @@ export const columns: ColumnDef<IBill>[] = [
       )
     },
     cell: ({ row }) => {
-      const date = row.getValue<Date>("issueDate");
+      const value = row.getValue<string>("issueDate");
+      const date : Date = new Date(value);
 
       return <>{formatDateToDDMMYY(date)}</>;
     },
@@ -89,9 +70,18 @@ export const columns: ColumnDef<IBill>[] = [
       const bill: IBill = row.original;
 
       return (
-        <Dialog>
+        <Button onClick={
+          () => window.location.href = `${rentSystemPaths.bills.details(bill.id)}`
+        }>Ver factura</Button>
+      );
+    },
+  },
+];
+
+/**
+ *         <Dialog>
           <DialogTrigger asChild>
-            <Button variant="outline">Edit Profile</Button>
+            <Button variant="outline">Ver factura</Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
@@ -188,14 +178,14 @@ export const columns: ColumnDef<IBill>[] = [
               {bill.status == "PAID" ? (
                 <Button type="submit" className="bg-yellow-600" >Reembolsar factura</Button>
               ) : bill.status == "UNPAID" ? (
-                <Button type="submit" variant="destructive">Cancelar factura</Button>
+                <div className="flex flex-row gap-5 justify-center">
+                <Button type="submit" variant="destructive" className="bg-green-500">Pagada</Button>
+                <Button type="submit" variant="destructive">Cancelar</Button>
+                </div>
               ) : (
                 <></>
               )}
             </DialogFooter>
           </DialogContent>
         </Dialog>
-      );
-    },
-  },
-];
+ */

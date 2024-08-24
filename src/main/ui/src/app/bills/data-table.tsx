@@ -25,6 +25,9 @@ import { Input } from "@/components/ui/input";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  onRefundClick: (id: string) => Promise<void>,
+  onCancelClick: (id: string) => Promise<void>,
+  onPayClick: (id: string) => Promise<void>
 }
 
 export function DataTable<TData, TValue>({

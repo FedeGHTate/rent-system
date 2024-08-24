@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/bills")
+@CrossOrigin(origins = "http://localhost:3000")
 public class BillGeneratorController {
     BillGeneratorService billGeneratorService;
 
@@ -26,7 +27,7 @@ public class BillGeneratorController {
 
         ApiResponse<Object> apiResponse = ApiResponse.builder()
                 .value(bills)
-                .message("Bills founded")
+                .message("Bills found")
                 .build();
 
         return ResponseEntity.ok(apiResponse);

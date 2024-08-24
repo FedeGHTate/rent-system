@@ -1,6 +1,11 @@
 export const rentSystemPaths = {
   bills: {
     base: "/bills",
+    create: "/bills/add",
+    details: (id: string) => `/bills/${id}`,
+    refund: (id: string) => `/bills/${id}/refund`,
+    cancel: (id: string) => `/bills/${id}/cancel`,
+    pay: (id: string) => `/bills/${id}/pay`
   },
   rents: {
     base: "/rents",
