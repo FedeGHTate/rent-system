@@ -69,7 +69,7 @@ class BillGeneratorServiceTest {
 
         Rent aRent = new Rent("example","A Description",1,1f);
         aRent.setActualTenant(mock(Tenant.class));
-        Bill aBill = Bill.builder().amount(aRent.getPrice()).rent(aRent).dueDate(LocalDate.now()).build();
+        Bill aBill = Bill.builder().rent(aRent).dueDate(LocalDate.now()).build();
         aBill.setId("1");
 
         doReturn(Optional.of(aBill)).when(billRepositoryMock).getById("1");
@@ -85,7 +85,7 @@ class BillGeneratorServiceTest {
 
         Rent aRent = new Rent("example","A Description",1,1f);
         aRent.setActualTenant(mock(Tenant.class));
-        Bill aBill = Bill.builder().amount(aRent.getPrice()).rent(aRent).dueDate(LocalDate.now()).build();
+        Bill aBill = Bill.builder().rent(aRent).dueDate(LocalDate.now()).build();
         aBill.setId("1");
 
         doReturn(Optional.of(aBill)).when(billRepositoryMock).getById("1");

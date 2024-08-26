@@ -124,7 +124,29 @@ export default function Bill() {
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="price" className="text-right">
-                  Precio
+                  Precio del Alquiler
+                </Label>
+                <Input
+                  id="rentPrice"
+                  disabled
+                  value={`${data?.value.basePrice? (data?.value.basePrice) : 0} $`}
+                  className="col-span-3"
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="price" className="text-right">
+                  Gastos adicionales
+                </Label>
+                <Input
+                  id="additionals"
+                  disabled
+                  value={`${data?.value.serviceCharge? (data?.value.serviceCharge) : 0} $`}
+                  className="col-span-3"
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="price" className="text-right">
+                  Precio Final
                 </Label>
                 <Input
                   id="price"

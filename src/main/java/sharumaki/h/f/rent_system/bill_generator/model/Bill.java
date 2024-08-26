@@ -20,6 +20,8 @@ public class Bill {
     @Id
     private String id;
     private BigDecimal amount;
+    private BigDecimal basePrice;
+    private BigDecimal serviceCharge;
     private LocalDate issueDate;
     private LocalDate dueDate;
     private Tenant tenant;
@@ -27,9 +29,11 @@ public class Bill {
     private LocalDate paidDate;
     private BillStatus status;
 
-    private Bill(Rent rent,Float amount, LocalDate dueDate) {
+    private Bill(Rent rent,BigDecimal basePrice, BigDecimal serviceCharge, LocalDate dueDate) {
 
-        this.amount = new BigDecimal(String.valueOf(amount));
+        this.amount = basePrice.add(serviceCharge);
+        this.basePrice = basePrice;
+        this.serviceCharge = serviceCharge;
         this.billRentInfo = new BillRentInfo(rent.getId(),rent.getName());
         this.issueDate = LocalDate.now();
         this.dueDate = dueDate;
@@ -45,7 +49,8 @@ public class Bill {
     public static class BillBuilder {
 
         private Rent rent;
-        private BigDecimal amount;
+        private BigDecimal basePrice;
+        private BigDecimal serviceCharge = BigDecimal.ZERO;
         private LocalDate dueDate;
 
         public BillBuilder dueDate(LocalDate dueDate) {
@@ -55,18 +60,12 @@ public class Bill {
 
         public BillBuilder rent(Rent rent) {
             this.rent = rent;
-            this.amount = rent.getPrice();
-            return this;
-        }
-
-
-        public BillBuilder amount(BigDecimal amount) {
-            this.amount = amount;
+            this.basePrice = rent.getPrice();
             return this;
         }
 
         public BillBuilder serviceCharge(BigDecimal serviceCharge) {
-            this.amount = amount.add(serviceCharge);
+            this.serviceCharge = serviceCharge;
             return this;
         }
         public Bill build() {
@@ -79,7 +78,7 @@ public class Bill {
                 throw new IllegalArgumentException("Due date must be provided");
             }
 
-            return new Bill(this.rent,amount.floatValue(),dueDate);
+            return new Bill(this.rent,this.basePrice, this.serviceCharge,dueDate);
         }
     }
 
@@ -124,22 +123,5 @@ public class Bill {
             throw  new BillRefundUnpaidException();
         }
         this.status = BillStatus.REFUNDED;
-    }
-
-    public void patchBill(Bill billToUpdate) {
-
-        verifyStatus();
-
-        if(billToUpdate.getDueDate().isBefore(LocalDate.now())) {
-            throw new InvalidBillPeriodException();
-        }
-
-        if(billToUpdate.getAmount().floatValue() > 0f) {
-            this.amount = billToUpdate.getAmount();
-        }
-
-        if(billToUpdate.getDueDate() != null) {
-            this.dueDate = billToUpdate.getDueDate();
-        }
     }
 }

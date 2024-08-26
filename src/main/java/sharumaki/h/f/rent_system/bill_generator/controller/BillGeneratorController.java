@@ -3,7 +3,6 @@ package sharumaki.h.f.rent_system.bill_generator.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sharumaki.h.f.rent_system.bill_generator.dto.BillCreateRequestDTO;
-import sharumaki.h.f.rent_system.bill_generator.dto.BillUpdateRequestDTO;
 import sharumaki.h.f.rent_system.bill_generator.model.Bill;
 import sharumaki.h.f.rent_system.bill_generator.service.BillGeneratorService;
 import sharumaki.h.f.rent_system.common.reponse.ApiResponse;
@@ -56,26 +55,6 @@ public class BillGeneratorController {
 
         return ResponseEntity.created(URI.create("/bills/" + billCreated.getId()))
                 .body(apiResponse);
-    }
-
-    @PatchMapping("/{id}")
-    public ResponseEntity<ApiResponse<Object>> updateBill(@PathVariable String id,
-                                        @RequestBody BillUpdateRequestDTO billUpdateRequestDTO) {
-
-        Bill billToUpdate = Bill.builder()
-                .amount(billUpdateRequestDTO.getAmount())
-                .dueDate(billUpdateRequestDTO.getDueDate())
-                .build();
-
-        Bill billUpdated = billGeneratorService.update(billToUpdate);
-
-        ApiResponse<Object> apiResponse = ApiResponse.builder()
-                .value(billUpdated)
-                .message("Bill updated")
-                .build();
-
-
-        return ResponseEntity.ok(apiResponse);
     }
 
     @PostMapping("/{id}/pay")

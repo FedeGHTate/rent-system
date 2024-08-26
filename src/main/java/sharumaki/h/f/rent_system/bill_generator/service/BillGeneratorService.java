@@ -59,8 +59,7 @@ public class BillGeneratorService {
             BigDecimal servicesAmount = servicesService.getAll().stream().map(s -> s.getPrice()).reduce(BigDecimal.ZERO, BigDecimal::add);
 
             billBuilder
-                    .serviceCharge(servicesAmount.divide(quantityOfRents,2, RoundingMode.HALF_UP))
-                    .build();
+                    .serviceCharge(servicesAmount.divide(quantityOfRents,2, RoundingMode.HALF_UP));
         }
 
         Bill bill = billBuilder.build();
@@ -90,14 +89,5 @@ public class BillGeneratorService {
         bill.refund();
 
         return billRepository.update(bill);
-    }
-
-    public Bill update(Bill billToUpdate) {
-
-        Bill bill = this.getById(billToUpdate.getId());
-
-        bill.patchBill(billToUpdate);
-
-        return this.billRepository.save(bill);
     }
 }

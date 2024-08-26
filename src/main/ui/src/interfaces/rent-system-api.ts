@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 3.2.1263 on 2024-08-25 21:36:28.
+// Generated using typescript-generator version 3.2.1263 on 2024-08-26 09:41:08.
 
 export interface IBillCreateRequest {
     rentId: string;
@@ -8,14 +8,11 @@ export interface IBillCreateRequest {
     withRecharges: boolean;
 }
 
-export interface IBillUpdateRequest {
-    amount: number;
-    dueDate: Date;
-}
-
 export interface IBill {
     id: string;
     amount: number;
+    basePrice: number;
+    serviceCharge: number;
     issueDate: Date;
     dueDate: Date;
     tenant: ITenant;

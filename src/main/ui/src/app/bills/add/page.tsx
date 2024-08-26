@@ -22,7 +22,7 @@ import { Title } from "@/components/ui/title";
 import { ToastAction } from "@/components/ui/toast";
 import { Toaster } from "@/components/ui/toaster";
 import { useToast } from "@/components/ui/use-toast";
-import { IApiResponse, IBill, IRent } from "@/interfaces/rent-system-api";
+import { IApiResponse, IBill, IBillCreateRequest, IRent } from "@/interfaces/rent-system-api";
 import { getFetcher, postFetcher } from "@/utils/fetchers";
 import { rentSystemImages } from "@/utils/imagesPaths";
 import { rentSystemPaths } from "@/utils/path";
@@ -70,10 +70,10 @@ export default function Add() {
         description: "La creación de la factura fue exitosa.",
         action: (
           <ToastAction
-            altText="Ver facturas"
-            onClick={() => router.push(rentSystemPaths.bills.base)}
+            altText="Ver factura"
+            onClick={() => router.push(rentSystemPaths.bills.details(res.value.id))}
           >
-            Ver Facturas
+            Ver Factura
           </ToastAction>
         ),
       });
@@ -164,7 +164,6 @@ export default function Add() {
                   <FormControl>
                     <Switch
                       checked={field.value}
-                      disabled
                       onCheckedChange={field.onChange}
                       aria-readonly
                     />
