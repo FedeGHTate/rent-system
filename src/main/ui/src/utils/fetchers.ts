@@ -19,6 +19,23 @@ export const getFetcher = async (resource : String) => {
   return data;
 }
 
+export const getCsvFetcher = async (resource : String) => {
+
+  const res = await fetch(ENDPOINT + resource, {
+    method: "GET",
+    mode: "cors",
+    headers: {
+      'Content-Type': 'text/csv',
+    },
+  })
+
+  if (!res.ok) {
+    throw new Error("Network error")
+  }
+
+  return res;
+}
+
 export const postFetcher = async (resource : String, obj : Object) => {
 
   const res = await fetch(ENDPOINT + resource, {

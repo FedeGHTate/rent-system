@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { rentSystemPaths } from "@/utils/path";
 import useSWR from "swr";
 import { getFetcher, postFetcher } from "@/utils/fetchers";
+import { ExportButton } from "./exportButton";
 
 
 export default function Bill() {
@@ -43,9 +44,10 @@ export default function Bill() {
       ) : (
         <>
           <div className="my-4 flex flex-row gap-2 justify-center">
-            <Button onClick={() => router.push(rentSystemPaths.bills.create)}>
+            <Button className="bg-green-400" onClick={() => router.push(rentSystemPaths.bills.create)}>
               Crear factura
             </Button>
+            <ExportButton />
           </div>
           <DataTable columns={columns} onCancelClick={onPayClick} onPayClick={onPayClick} onRefundClick={onRefundClick}  data={data?.value!} />
         </>

@@ -22,5 +22,9 @@ export const rentSystemPaths = {
     base: "/tenants",
     details: (id: string) => `/tenants/${id}`,
     edit: (id: string) => `/tenants/${id}`,
+  },
+  export: {
+    base: "/export",
+    csv: "/export/csv"
   }
 }
