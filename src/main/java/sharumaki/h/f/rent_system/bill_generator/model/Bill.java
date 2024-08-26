@@ -15,9 +15,7 @@ import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
-@Document("biils")
+@Document("bills")
 public class Bill {
     @Id
     private String id;
@@ -29,15 +27,60 @@ public class Bill {
     private LocalDate paidDate;
     private BillStatus status;
 
-    public Bill(Rent rent, LocalDate dueDate) {
+    private Bill(Rent rent,Float amount, LocalDate dueDate) {
 
-        this.amount = rent.getPrice();
+        this.amount = new BigDecimal(String.valueOf(amount));
         this.billRentInfo = new BillRentInfo(rent.getId(),rent.getName());
         this.issueDate = LocalDate.now();
         this.dueDate = dueDate;
         this.tenant = rent.getActualTenant();
         this.paidDate = null;
         this.status = BillStatus.UNPAID;
+    }
+
+    public static BillBuilder builder() {
+        return new BillBuilder();
+    }
+
+    public static class BillBuilder {
+
+        private Rent rent;
+        private BigDecimal amount;
+        private LocalDate dueDate;
+
+        public BillBuilder dueDate(LocalDate dueDate) {
+            this.dueDate = dueDate;
+            return this;
+        }
+
+        public BillBuilder rent(Rent rent) {
+            this.rent = rent;
+            this.amount = rent.getPrice();
+            return this;
+        }
+
+
+        public BillBuilder amount(BigDecimal amount) {
+            this.amount = amount;
+            return this;
+        }
+
+        public BillBuilder serviceCharge(BigDecimal serviceCharge) {
+            this.amount = amount.add(serviceCharge);
+            return this;
+        }
+        public Bill build() {
+
+            if(this.rent == null) {
+                throw new IllegalArgumentException("Rent must be provided");
+            }
+
+            if(this.dueDate == null) {
+                throw new IllegalArgumentException("Due date must be provided");
+            }
+
+            return new Bill(this.rent,amount.floatValue(),dueDate);
+        }
     }
 
     public void cancel() {

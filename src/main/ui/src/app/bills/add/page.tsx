@@ -41,7 +41,7 @@ const billFormSchema = z.object({
   days: z.number().positive({
     message: "La cantidad debe ser mayor a 0",
   }),
-  includeServices: z.boolean().default(false).optional(),
+  withRecharges: z.boolean().default(false).optional(),
 });
 
 export default function Add() {
@@ -150,7 +150,7 @@ export default function Add() {
 
             <FormField
               control={form.control}
-              name="includeServices"
+              name="withRecharges"
               render={({ field }) => (
                 <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                   <div className="mx-1">

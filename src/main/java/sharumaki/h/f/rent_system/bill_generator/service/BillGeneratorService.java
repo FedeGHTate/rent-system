@@ -8,7 +8,10 @@ import sharumaki.h.f.rent_system.bill_generator.model.Bill;
 import sharumaki.h.f.rent_system.bill_generator.repository.BillRepository;
 import sharumaki.h.f.rent_system.rent.model.Rent;
 import sharumaki.h.f.rent_system.rent.service.RentService;
+import sharumaki.h.f.rent_system.service.services.ServicesService;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -19,9 +22,12 @@ public class BillGeneratorService {
 
     BillRepository billRepository;
 
-    public BillGeneratorService(RentService rentService, BillRepository billRepository) {
+    ServicesService servicesService;
+
+    public BillGeneratorService(RentService rentService, BillRepository billRepository, ServicesService servicesService) {
         this.rentService = rentService;
         this.billRepository = billRepository;
+        this.servicesService = servicesService;
     }
 
     public List<Bill> getAll() {
@@ -33,8 +39,8 @@ public class BillGeneratorService {
         return bill;
     }
 
-    public Bill createBill(String rentId, int days) {
 
+    public Bill createBill(String rentId, int days, boolean includeServices) {
         if (days <= 0) {
             throw new InvalidBillPeriodException();
         }
@@ -45,7 +51,19 @@ public class BillGeneratorService {
             throw new MissingTenantException();
         }
 
-        Bill bill = new Bill(rent, LocalDate.now().plusDays(days));
+        Bill.BillBuilder billBuilder = Bill.builder().rent(rent).dueDate(LocalDate.now().plusDays(days));
+
+        if (includeServices) {
+            BigDecimal quantityOfRents = BigDecimal.valueOf(rentService.getAll().size());
+
+            BigDecimal servicesAmount = servicesService.getAll().stream().map(s -> s.getPrice()).reduce(BigDecimal.ZERO, BigDecimal::add);
+
+            billBuilder
+                    .serviceCharge(servicesAmount.divide(quantityOfRents,2, RoundingMode.HALF_UP))
+                    .build();
+        }
+
+        Bill bill = billBuilder.build();
 
         return billRepository.save(bill);
     }

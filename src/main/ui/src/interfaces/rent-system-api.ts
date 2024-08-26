@@ -1,10 +1,11 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 3.2.1263 on 2024-08-22 11:46:25.
+// Generated using typescript-generator version 3.2.1263 on 2024-08-25 21:36:28.
 
 export interface IBillCreateRequest {
     rentId: string;
     days: number;
+    withRecharges: boolean;
 }
 
 export interface IBillUpdateRequest {

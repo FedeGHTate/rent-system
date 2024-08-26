@@ -11,10 +11,13 @@ import sharumaki.h.f.rent_system.bill_generator.model.Bill;
 import sharumaki.h.f.rent_system.bill_generator.repository.BillRepository;
 import sharumaki.h.f.rent_system.rent.model.Rent;
 import sharumaki.h.f.rent_system.rent.service.RentService;
+import sharumaki.h.f.rent_system.service.model.Service;
+import sharumaki.h.f.rent_system.service.services.ServicesService;
 import sharumaki.h.f.rent_system.tenant.model.Tenant;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -28,13 +31,15 @@ class BillGeneratorServiceTest {
 
     BillRepository billRepositoryMock;
     RentService rentServiceMock;
+
+    ServicesService servicesServiceMock;
     @BeforeEach
     public void init() {
         tenantMock = mock(Tenant.class);
         rentServiceMock = mock(RentService.class);
         billRepositoryMock = mock(BillRepository.class);
-        billGeneratorService = new BillGeneratorService(rentServiceMock,billRepositoryMock);
-
+        servicesServiceMock = mock(ServicesService.class);
+        billGeneratorService = new BillGeneratorService(rentServiceMock,billRepositoryMock, servicesServiceMock);
     }
 
     @Test
@@ -45,8 +50,8 @@ class BillGeneratorServiceTest {
         doReturn(mock(Bill.class)).when(billRepositoryMock).save(Mockito.any(Bill.class));
         doReturn(aRent).when(rentServiceMock).getById(Mockito.anyString());
 
-        assertThrows(InvalidBillPeriodException.class, () -> billGeneratorService.createBill("1",0));
-        assertDoesNotThrow(() -> billGeneratorService.createBill("1",1));
+        assertThrows(InvalidBillPeriodException.class, () -> billGeneratorService.createBill("1",0,false));
+        assertDoesNotThrow(() -> billGeneratorService.createBill("1",1,false));
     }
 
     @Test
@@ -56,7 +61,7 @@ class BillGeneratorServiceTest {
         doReturn(mock(Bill.class)).when(billRepositoryMock).save(Mockito.any(Bill.class));
         doReturn(aRent).when(rentServiceMock).getById(Mockito.anyString());
 
-        assertThrows(MissingTenantException.class, () -> billGeneratorService.createBill("1",99));
+        assertThrows(MissingTenantException.class, () -> billGeneratorService.createBill("1",99,false));
     }
 
     @Test
@@ -64,7 +69,7 @@ class BillGeneratorServiceTest {
 
         Rent aRent = new Rent("example","A Description",1,1f);
         aRent.setActualTenant(mock(Tenant.class));
-        Bill aBill = new Bill(aRent, LocalDate.now());
+        Bill aBill = Bill.builder().amount(aRent.getPrice()).rent(aRent).dueDate(LocalDate.now()).build();
         aBill.setId("1");
 
         doReturn(Optional.of(aBill)).when(billRepositoryMock).getById("1");
@@ -80,7 +85,7 @@ class BillGeneratorServiceTest {
 
         Rent aRent = new Rent("example","A Description",1,1f);
         aRent.setActualTenant(mock(Tenant.class));
-        Bill aBill = new Bill(aRent, LocalDate.now());
+        Bill aBill = Bill.builder().amount(aRent.getPrice()).rent(aRent).dueDate(LocalDate.now()).build();
         aBill.setId("1");
 
         doReturn(Optional.of(aBill)).when(billRepositoryMock).getById("1");

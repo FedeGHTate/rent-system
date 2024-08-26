@@ -47,7 +47,7 @@ public class BillGeneratorController {
     @PostMapping
     public ResponseEntity<ApiResponse<Object>> createBill(@RequestBody BillCreateRequestDTO data) {
 
-        Bill billCreated = billGeneratorService.createBill(data.getRentId(),data.getDays());
+        Bill billCreated = billGeneratorService.createBill(data.getRentId(),data.getDays(),data.isWithRecharges());
 
         ApiResponse<Object> apiResponse = ApiResponse.builder()
                 .value(billCreated)

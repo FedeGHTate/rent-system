@@ -6,4 +6,5 @@ import lombok.Data;
 public class BillCreateRequestDTO {
     String rentId;
     int days;
+    boolean withRecharges;
 }
