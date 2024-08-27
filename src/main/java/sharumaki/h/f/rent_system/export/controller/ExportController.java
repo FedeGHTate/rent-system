@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import sharumaki.h.f.rent_system.export.service.ExportService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 @RequestMapping("/export")
 public class ExportController {
 

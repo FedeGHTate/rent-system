@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/rents")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 public class RentController {
 
     RentService rentService;

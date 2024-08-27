@@ -147,4 +147,6 @@ dist/
 nbdist/
 .nb-gradle/
 
+data/
+
 # End of https://www.toptal.com/developers/gitignore/api/java,netbeans,intellij+all,maven,dotenv
